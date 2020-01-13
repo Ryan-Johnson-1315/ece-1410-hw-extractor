@@ -1,6 +1,18 @@
 import os
 from sys import argv
 import zipfile
+from shutil import copyfile
+
+solution = argv[1] + "solution"
+gtest
+
+def copy_solution(dest):
+    pass
+
+def copy_gstest(dest):
+    pass
+
+
 
 for i in os.listdir(argv[1]):
     if ".zip" in i:
