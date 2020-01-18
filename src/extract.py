@@ -46,24 +46,23 @@ def unzip_submissions():
     with zipfile.ZipFile(submission_dir + args.submissions) as zip:
         zip.extractall(submission_dir)
     os.remove(submission_dir + args.submissions)
-
+    return len(os.listdir(submission_dir))
 def extract_sub_dirs(directory, destination):
+    files_copied = open(f'{destination}files.txt', 'a')
     for file in os.listdir(directory):
-        print(f'Checking: {directory + file}...', end='')
+        #print(f'Checking: {directory + file}...', end='')
         #print(f'if os.path.isfile({file})[{os.path.isfile(file)}] and (".cpp" in {file} or ".hpp" in {file} or ".h" in {file}[{(".cpp" in file or ".hpp" in file or ".h" in file)}])')
-        if os.path.isfile(directory + file) and (".cpp" in file or ".hpp" in file or ".h" in file) and "gtest" not in file:
-            print(f'is a source file')
+        if os.path.isfile(directory + file) and (".cpp" in file or ".hpp" in file or ".h" in file) and ("gtest" not in file and "test.cpp" not in file):
+            #print(f'is a source file')
+            files_copied.write(file + '\n')
             if directory != destination:
-                print(f'Copying to {destination}')
+             #   print(f'Copying to {destination}')
                 copyfile(directory + file, destination + file)
         elif os.path.isdir(directory + file + '/'):
-            print('is a directory')
-            input(f'Found sub dir: {file}')
+            #print('is a directory')
             extract_sub_dirs(directory + file + '/', destination)
-        else:
-            print('Neither')
-        input('')
-unzip_submissions()
+        #input('')
+total = unzip_submissions()
 
 count = 0
 not_compiled = list()
@@ -87,21 +86,25 @@ for i in os.listdir(submission_dir):
         copy_gstest(folder_name)
         copy_solution(folder_name)
         
-        open(folder_name + 'grade.txt', 'w')
         print(f'Extracted {len(os.listdir(folder_name))} files')
+        open(folder_name + 'grade.txt', 'w')
         os.remove(zip_file)
 
         if args.compile:
-            print('Compiling Code...')
+            print('Compiling code...', end='')
 
-            subprocess.call(f'g++ *.cpp', shell=True, cwd=folder_name)  
+            subprocess.call(f'g++ *.cpp', shell=True, cwd=folder_name, stderr=open(f'{folder_name}error.txt', 'w'))  
             if not os.path.exists(f'{folder_name}a.out'):
                 not_compiled.append(folder_name)
+                print('failed')
+            else:
+                os.remove(f'{folder_name}error.txt')
+                print('success')
+                
             
         count += 1
+        print(f'Extracted {count}/{total}')
 
 if args.compile:
-    print(f'Compiled {count} directories')
-    print('\n\t'.join(not_compiled) + 'Not Compiled')
-print(f'\nExtracted {count} directories')
+    print(f'Compiled {total - len(not_compiled)}/{total} directories')
 
