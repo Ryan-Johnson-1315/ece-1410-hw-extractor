@@ -29,7 +29,7 @@ for directory in os.listdir(args.path):
 
 
 reader = csv.reader(open(args.csv, 'r'))
-writer = csv.writer(open('updated_' + args.csv, 'w'))
+writer = csv.writer(open('graded_' + args.csv, 'w'))
 
 headers = next(reader)
 writer.writerow(headers)
