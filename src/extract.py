@@ -1,3 +1,4 @@
+#!/usr/bin/python
 import os
 from sys import argv
 import zipfile

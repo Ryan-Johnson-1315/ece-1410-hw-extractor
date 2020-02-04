@@ -2,6 +2,8 @@ from os import path
 import subprocess
 
 
+# This script will run in each students directory
+
 if __name__ == "__main__":
     if path.exists('a.out'):
         print('Compile sucess')

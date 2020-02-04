@@ -6,6 +6,8 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('-p', '--path', help='Path to graded directories')
 parser.add_argument('-c', '--csv', help='Path and filename to csv file')
+parser.add_argument('-o', '--column', 
+            help='The letter column to put the grades into. Corresponds to the current assignment')
 
 args = parser.parse_args()
 
@@ -19,7 +21,7 @@ grades = {}
 
 for directory in os.listdir(args.path):
     student_id = directory.split('_')[1]
-    print(student_id)
+    # print(student_id)
     if student_id == 'LATE':
         student_id = directory.split('_')[2]
         grades[student_id] = '0'
@@ -35,7 +37,7 @@ headers = next(reader)
 writer.writerow(headers)
 headers = next(reader)
 writer.writerow(headers)
-GRADE = 6
+GRADE = (ord(args.column.lower()) % 32) - 1
 ID    = 1
 keys = grades.keys()
 while True:

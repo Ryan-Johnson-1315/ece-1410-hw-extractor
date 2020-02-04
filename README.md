@@ -22,6 +22,10 @@
 5. Create new `.csv` file
     - From the top directory, run `src/grade.py` and it will create a new `.csv` file to upload to canvas.
             
-            python src/grade.py --path=path/to/all/submissions --csv=path/to/file.csv
+            python src/grade.py --path=path/to/all/submissions --csv=path/to/file.csv --column=Column where the grades will go
+	
+    - Example:
+
+            python src/grade.py --path=hw2/submissions/ --csv=grads.csv --column=j
 
 7. Upload `.csv` file to canvas
